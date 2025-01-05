@@ -1,5 +1,6 @@
 package com.membershipTracker.MembershipTracker.MemberAndAttendance.Services;
 
+import com.membershipTracker.MembershipTracker.Exceptions.MemberNotFoundException;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.DTO.MemberDTO;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Member;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Repository.MemberRepository;
@@ -19,15 +20,13 @@ public class GetMemberService implements Query<Integer, MemberDTO> {
 
     @Override
     public ResponseEntity<MemberDTO> execute(Integer input) {
-        try {
+
             Optional<Member> memberOptional = memberRepository.findById(input);
 
             if (memberOptional.isPresent()) {
                 return ResponseEntity.ok(new MemberDTO(memberOptional.get()));
             }
-        }catch(Exception e){
-            //Member not found exception
-        }
-        return null;
+
+        throw new MemberNotFoundException();
     }
 }

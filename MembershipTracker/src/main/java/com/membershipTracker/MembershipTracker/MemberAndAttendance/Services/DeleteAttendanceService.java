@@ -1,5 +1,6 @@
 package com.membershipTracker.MembershipTracker.MemberAndAttendance.Services;
 
+import com.membershipTracker.MembershipTracker.Exceptions.AttendanceNotFoundException;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Command;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Attendance;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Repository.AttendanceRepository;
@@ -20,16 +21,13 @@ public class DeleteAttendanceService implements Command<Integer,Void> {
 
     @Override
     public ResponseEntity<Void> execute(Integer id) {
-        try {
             Optional<Attendance> attendanceOptional = attendanceRepository.findById(id);
             if(attendanceOptional.isPresent()){
                 attendanceRepository.deleteById(id);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
-        }catch(Exception e){
 
-        }
 
-        return null;
+        throw new AttendanceNotFoundException();
     }
 }

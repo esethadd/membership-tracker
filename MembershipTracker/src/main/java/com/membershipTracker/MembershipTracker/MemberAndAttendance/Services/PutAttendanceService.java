@@ -1,5 +1,6 @@
 package com.membershipTracker.MembershipTracker.MemberAndAttendance.Services;
 
+import com.membershipTracker.MembershipTracker.Exceptions.AttendanceNotFoundException;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Command;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Controller.UpdateCommands.UpdateAttendanceCommand;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Attendance;
@@ -21,7 +22,6 @@ private AttendanceRepository attendanceRepository;
 
     @Override
     public ResponseEntity<AttendanceDTO> execute(UpdateAttendanceCommand command) {
-        try{
             Optional<Attendance> attendanceOptional = attendanceRepository.findById(command.getId());
             if(attendanceOptional.isPresent()){
                 Attendance attendance = command.getAttendance();
@@ -29,9 +29,7 @@ private AttendanceRepository attendanceRepository;
                 attendanceRepository.save(attendance);
                 return ResponseEntity.ok(new AttendanceDTO(attendance));
             }
-        }catch(Exception e){
 
-        }
-        return null;
+        throw new AttendanceNotFoundException();
     }
 }
