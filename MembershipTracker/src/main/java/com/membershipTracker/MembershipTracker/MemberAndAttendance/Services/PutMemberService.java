@@ -1,5 +1,6 @@
 package com.membershipTracker.MembershipTracker.MemberAndAttendance.Services;
 
+import com.membershipTracker.MembershipTracker.Exceptions.MemberNotFoundException;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Command;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Controller.UpdateCommands.UpdateMemberCommand;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.DTO.MemberDTO;
@@ -23,7 +24,6 @@ public class PutMemberService implements Command<UpdateMemberCommand, MemberDTO>
 
     @Override
     public ResponseEntity<MemberDTO> execute(UpdateMemberCommand command) {
-        try {
             Optional<Member> memberOptional = memberRepository.findById(command.getId());
             if (memberOptional.isPresent()) {
                 Member member = command.getMember();
@@ -31,9 +31,7 @@ public class PutMemberService implements Command<UpdateMemberCommand, MemberDTO>
                 memberRepository.save(member);//Updates Entity
                 return ResponseEntity.ok(new MemberDTO(member));
             }
-        }catch(Exception e){
 
-        }
-        return null;
+        throw new MemberNotFoundException();
     }
 }

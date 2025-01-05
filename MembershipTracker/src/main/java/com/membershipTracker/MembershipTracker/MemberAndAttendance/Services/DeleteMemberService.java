@@ -1,5 +1,6 @@
 package com.membershipTracker.MembershipTracker.MemberAndAttendance.Services;
 
+import com.membershipTracker.MembershipTracker.Exceptions.MemberNotFoundException;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Command;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Member;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Repository.MemberRepository;
@@ -20,15 +21,12 @@ public class DeleteMemberService implements Command<Integer,Void> {
 
     @Override
     public ResponseEntity<Void> execute(Integer id) {
-        try{
             Optional<Member> memberOptional = memberRepository.findById(id);
             if(memberOptional.isPresent()){
                 memberRepository.deleteById(id);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
-        }catch(Exception e){
 
-        }
-        return null;
+        throw new MemberNotFoundException();
     }
 }
