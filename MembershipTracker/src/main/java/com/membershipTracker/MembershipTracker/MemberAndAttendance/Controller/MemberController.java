@@ -1,9 +1,12 @@
 package com.membershipTracker.MembershipTracker.MemberAndAttendance.Controller;
 
+import com.membershipTracker.MembershipTracker.Exceptions.MemberNotFoundException;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Controller.UpdateCommands.UpdateMemberCommand;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.DTO.MemberDTO;
+import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.ErrorResponse;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Model.Member;
 import com.membershipTracker.MembershipTracker.MemberAndAttendance.Services.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,4 +56,5 @@ public class MemberController {
     public ResponseEntity<Void> deleteMember(@PathVariable Integer id){
         return deleteMemberService.execute(id);
     }
+
 }
